@@ -15,18 +15,30 @@ class Formulario {
     let campo;
     switch(tipo) {
       case 'text':
-        campo.text = texto
+        campo = new InputText(texto)
         break;
       case 'email':
-        campo.text = texto
+        campo = new InputEmail(texto)
         break;
       case 'button':
-        campo.text = texto
+        campo = new Boton(texto)
         break;
       default:
-        throw new Error('Campo no soportado' + tipo)
+        throw new Error('Campo no soportado => ' + tipo)
     }
     campos.push(campo)
+  }
+  obtenerFormularo() {
+    let form = document.createElement('form'),
+    campos = this.campos.length,
+    campo;
+    for(let i = 0; i < campos; i++) {
+      campo = this.campos[i];
+      form.appendChild(campo.crearElemento())
+      let br = document.createElement('br')
+      form.appendChild(br)
+    }
+    return form
   }
 }
 
@@ -35,6 +47,57 @@ class Inputs {
     this.texto = texto
   }
 }
+class InputText extends Inputs {
+  constructor(texto) {
+    super(texto)
+  }
+  crearElemento() {
+    const inputText = document.createElement('input')
+    inputText.setAttribute('type', 'text')
+    inputText.setAttribute('placeholder', this.texto)
+
+    return inputText
+  }
+}
+class InputEmail extends Inputs {
+  constructor(texto) {
+    super(texto)
+  }
+  crearElemento() {
+    const inputEmail = document.createElement('input')
+    inputEmail.setAttribute('type', 'email')
+    inputEmail.setAttribute('placeholder', this.texto)
+
+    return inputEmail
+  }
+}
+class Boton extends Inputs {
+  constructor(texto) {
+    super(texto)
+  }
+  crearElemento() {
+    const boton = document.createElement('button')
+    boton.setAttribute('type', 'submit')
+    boton.textContent = this.texto
+    return boton
+  }
+}
 
 // Instanciar Formulario
 const formulario = new Formulario()
+
+// Agregar campos al formulario
+formulario.agregarCampo('text', 'Añade tu nombre')
+formulario.agregarCampo('text', 'Añade tu apellido')
+formulario.agregarCampo('email', 'Añade tu Email')
+formulario.agregarCampo('button', 'Guardar tu información')
+// formulario.agregarCampo('imagen', 'gmm.svg')
+
+console.log(formulario)
+console.log(formulario.obtenerFormularo())
+
+// Renderizar formulario en el HTML
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#app').appendChild(formulario.obtenerFormularo())
+})
