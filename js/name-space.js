@@ -26,11 +26,31 @@ restaurApp.platillos = [
 restaurApp.funciones = {
   ordenar: id => {
     console.log(`Tu platillo ${restaurApp.platillos[id].platillo} se esta preparando`)
+  },
+  agregarPlatillo: (platillo, precio) => {
+    const nuevo = {
+      platillo,
+      precio
+    }
+    restaurApp.platillos.push(nuevo)
+  },
+  mostrarMenu: platillos => {
+    console.log('Bienvenido al menú ');
+    platillos.forEach((platillo, index) => {
+      console.log(`${index}: ${platillo.platillo} a $${platillo.precio}`);
+    })
   }
 }
 
-console.log(restaurApp)
+const { platillos } = restaurApp
+
+restaurApp.funciones.mostrarMenu(platillos)
+
+restaurApp.funciones.agregarPlatillo('Pastel', 15)
+
+restaurApp.funciones.mostrarMenu(platillos)
 
 restaurApp.funciones.ordenar(0)
-restaurApp.funciones.ordenar(2)
 restaurApp.funciones.ordenar(1)
+restaurApp.funciones.ordenar(2)
+restaurApp.funciones.ordenar(3)
