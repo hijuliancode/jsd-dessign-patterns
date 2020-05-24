@@ -6,9 +6,11 @@
 
 const Vendedor = function(nombre) {
   this.nombre = nombre
+  this.sala = null
 }
 const Comprador = function(nombre) {
   this.nombre = nombre
+  this.sala = null
 }
 
 Vendedor.prototype = {
@@ -25,3 +27,43 @@ Comprador.prototype = {
     console.log(`${comprador.nombre} : ${mensaje}`)
   }
 }
+
+const Subasta = function() {
+  let compradores = {}
+  return {
+    registrar: function(usuario) {
+      compradores[usuario.nombre] = usuario
+      usuario.sala = this
+      console.log(compradores)
+    }
+  }
+}
+
+// Instanciar las clases
+  // Compradores
+  const juan = new Comprador('Juan')
+  const meraki = new Comprador('Meraki')
+  const ginna = new Comprador('Ginna')
+  const petra = new Comprador('Petra')
+
+  // Vendedor
+  const vendedor = new Vendedor('Vendedor')
+
+  // Subasta
+  const subasta = new Subasta()
+
+// Registrar usuarios a Subasta
+  subasta.registrar( juan )
+  subasta.registrar( meraki )
+  subasta.registrar( ginna )
+  subasta.registrar( petra )
+
+
+// Comenzando la subasta
+  vendedor.oferta('Mustang 1966', 3000)
+
+  juan.oferta(3500, juan)
+  juan.oferta(4000, meraki)
+  juan.oferta(10000, ginna)
+
+  vendedor.vendido(ginna)
